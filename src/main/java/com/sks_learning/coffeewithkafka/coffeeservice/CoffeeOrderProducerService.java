@@ -6,6 +6,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 @Service
@@ -13,14 +14,14 @@ public class CoffeeOrderProducerService {
 
     private static final String coffeeTopic = "coffeeTopic";
     private static final Logger log = LoggerFactory.getLogger(CoffeeOrderProducerService.class);
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String,  Map<String, Object>> kafkaTemplate;
 
-    public CoffeeOrderProducerService(KafkaTemplate<String, String> kafkaTemplate){
+    public CoffeeOrderProducerService(KafkaTemplate<String,  Map<String, Object>> kafkaTemplate){
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void sendOrder(String coffeeTopic,String order){
-        CompletableFuture<SendResult<String, String>> future = kafkaTemplate.send(coffeeTopic, order);
+    public void sendOrder(String coffeeTopic, Map<String, Object> order){
+        CompletableFuture<SendResult<String,  Map<String, Object>>> future = kafkaTemplate.send(coffeeTopic, order);
 
         future.whenComplete((result, exception)->{
             if(exception==null){

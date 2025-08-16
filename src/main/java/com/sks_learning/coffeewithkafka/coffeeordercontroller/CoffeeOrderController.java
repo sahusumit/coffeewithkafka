@@ -21,7 +21,7 @@ public class CoffeeOrderController {
     @GetMapping("/placeOrder")
     public String orderCoffee(@RequestParam Map<String, Object> orderRequest){
         //String orderString = orderRequest.toString();
-        producerService.sendOrder(orderTopic,"test message");
+        producerService.sendOrder(orderTopic, orderRequest);
         return "Order has been placed for :" + orderRequest.get("coffeeType");
     }
 
